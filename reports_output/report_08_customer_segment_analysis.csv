@@ -1,0 +1,4 @@
+segment,customers_who_bought,orders,revenue,revenue_per_customer
+Retail,30,215,10737312.90,357910.43
+Corporate,17,118,4652440.85,273672.99
+Wholesale,8,43,1831512.55,228939.07

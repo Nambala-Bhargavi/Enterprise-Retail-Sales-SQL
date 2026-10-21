@@ -1,0 +1,54 @@
+digraph ERD {
+  rankdir=LR; splines=true; nodesep=0.6; ranksep=1.3;
+  graph [fontname="Arial", bgcolor="white", label="Entity Relationship Diagram: retail_sales_db  (PK = primary key, FK = foreign key)", labelloc=t, fontsize=18];
+  node [shape=plain, fontname="Arial", fontsize=11];
+  edge [fontname="Arial", fontsize=10, color="#1F4E78", arrowhead=crow, arrowtail=teetee, dir=both, penwidth=1.4];
+
+  regions [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#1F4E78"><FONT COLOR="white"><B>regions</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><B>PK</B> region_id</TD></TR><TR><TD ALIGN="LEFT">region_name (unique)</TD></TR></TABLE>>];
+
+  employees [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#1F4E78"><FONT COLOR="white"><B>employees</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><B>PK</B> employee_id</TD></TR><TR><TD ALIGN="LEFT">full_name</TD></TR>
+    <TR><TD ALIGN="LEFT">job_title</TD></TR><TR><TD ALIGN="LEFT"><B>FK</B> manager_id (self)</TD></TR>
+    <TR><TD ALIGN="LEFT"><B>FK</B> region_id</TD></TR><TR><TD ALIGN="LEFT">hire_date</TD></TR></TABLE>>];
+
+  customers [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#1F4E78"><FONT COLOR="white"><B>customers</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><B>PK</B> customer_id</TD></TR><TR><TD ALIGN="LEFT">customer_name</TD></TR>
+    <TR><TD ALIGN="LEFT">email (nullable)</TD></TR><TR><TD ALIGN="LEFT">phone (nullable)</TD></TR>
+    <TR><TD ALIGN="LEFT">segment</TD></TR><TR><TD ALIGN="LEFT"><B>FK</B> region_id</TD></TR>
+    <TR><TD ALIGN="LEFT">signup_date</TD></TR><TR><TD ALIGN="LEFT">is_active</TD></TR></TABLE>>];
+
+  orders [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#548235"><FONT COLOR="white"><B>orders</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><B>PK</B> order_id</TD></TR><TR><TD ALIGN="LEFT"><B>FK</B> customer_id</TD></TR>
+    <TR><TD ALIGN="LEFT"><B>FK</B> employee_id</TD></TR><TR><TD ALIGN="LEFT">order_date</TD></TR>
+    <TR><TD ALIGN="LEFT">status</TD></TR></TABLE>>];
+
+  order_items [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#548235"><FONT COLOR="white"><B>order_items</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><B>PK</B> order_item_id</TD></TR><TR><TD ALIGN="LEFT"><B>FK</B> order_id</TD></TR>
+    <TR><TD ALIGN="LEFT"><B>FK</B> product_id</TD></TR><TR><TD ALIGN="LEFT">quantity</TD></TR>
+    <TR><TD ALIGN="LEFT">unit_price</TD></TR><TR><TD ALIGN="LEFT">discount_pct</TD></TR></TABLE>>];
+
+  products [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#1F4E78"><FONT COLOR="white"><B>products</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><B>PK</B> product_id</TD></TR><TR><TD ALIGN="LEFT">product_name</TD></TR>
+    <TR><TD ALIGN="LEFT"><B>FK</B> category_id</TD></TR><TR><TD ALIGN="LEFT">unit_cost</TD></TR>
+    <TR><TD ALIGN="LEFT">unit_price</TD></TR></TABLE>>];
+
+  categories [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#1F4E78"><FONT COLOR="white"><B>categories</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><B>PK</B> category_id</TD></TR><TR><TD ALIGN="LEFT">category_name (unique)</TD></TR></TABLE>>];
+
+  regions -> customers   [label="1 : many"];
+  regions -> employees   [label="1 : many"];
+  employees -> employees [label="manager (1 : many)"];
+  customers -> orders    [label="1 : many"];
+  employees -> orders    [label="1 : many"];
+  orders -> order_items  [label="1 : many"];
+  products -> order_items [label="1 : many"];
+  categories -> products [label="1 : many"];
+}
